@@ -3,203 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treinamento de Segurança do Trabalho - EPIs Profissionais</title>
+    <title>Treinamento EPI - Soldador em Espaço Confinado</title>
     <style>
         :root {
-            --primary-color: #1a1a2e;
-            --secondary-color: #16213e;
-            --accent-color: #0f3460;
-            --text-color: #e0e0e0;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-            --warning-color: #ffc107;
-            --border-color: #0f3460;
-            --card-background: #2c3e50;
+            --bg-primary: #12181b;
+            --bg-secondary: #2a2e33;
+            --accent: #2080f5;
+            --text: #ffffff;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--primary-color);
-            color: var(--text-color);
+            background-color: var(--bg-primary);
+            color: var(--text);
             margin: 0;
-            padding: 15px;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             box-sizing: border-box;
             user-select: none;
-            -webkit-user-select: none;
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
-            background-color: var(--secondary-color);
+            max-width: 1000px;
+            background-color: #1e2429;
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
             padding: 20px;
-            box-sizing: border-box;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
         }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--bg-secondary);
             padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
         }
 
-        .logo {
-            font-size: 1.4em;
-            font-weight: bold;
-            color: var(--text-color);
-        }
+        h1 { margin: 0 0 5px 0; font-size: 1.5em; color: var(--warning); }
+        p.subtitle { margin: 0; color: #a0aab0; font-size: 0.9em; }
 
-        .game-info {
+        .hud {
             display: flex;
-            gap: 20px;
-            font-size: 1em;
+            justify-content: space-around;
+            background-color: var(--bg-secondary);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
-
-        .info-item span { font-weight: bold; }
-        #timer .value { color: var(--warning-color); }
-        #lives .value { color: var(--danger-color); }
-        #score .value { color: var(--success-color); }
 
         main {
             display: flex;
             gap: 20px;
+            align-items: flex-start;
         }
 
-        .left-panel {
+        .avatar-container {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .right-panel {
-            flex: 1.2;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .scenarios, .character-display, .epis-available {
-            background-color: var(--card-background);
-            padding: 15px;
+            background-color: var(--bg-secondary);
             border-radius: 8px;
-        }
-
-        .scenarios h3, .character-display h3, .epis-available h3 {
-            margin: 0 0 10px 0;
-            font-size: 1em;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
-        }
-
-        .scenario-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .scenario-buttons button {
-            background-color: var(--accent-color);
-            color: var(--text-color);
-            border: 1px solid transparent;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: left;
-            transition: all 0.2s;
-        }
-
-        .scenario-buttons button:hover { filter: brightness(1.2); }
-        .scenario-buttons button.active {
-            background-color: var(--success-color);
-            font-weight: bold;
-        }
-
-        .character-display {
+            padding: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
         }
 
         .avatar-wrapper {
             position: relative;
             width: 220px;
-            height: 400px;
-            margin-top: 10px;
-            background: rgba(0, 0, 0, 0.15);
+            height: 380px;
+            background: #191c1f;
             border-radius: 8px;
         }
 
-        #worker-avatar {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
+        #worker-avatar { width: 100%; height: 100%; }
 
+        /* Zonas sem bordas ou pontilhados */
         .drop-zone {
             position: absolute;
-            box-sizing: border-box;
-            border: 1px dashed transparent;
-            outline: none;
+            border: none;
             background: transparent;
             cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
         }
 
-        .drop-zone.drag-over, .drop-zone.selected-target {
-            background-color: rgba(40, 167, 69, 0.4) !important;
-            border-color: var(--success-color);
-            border-radius: 6px;
+        .drop-zone:hover {
+            background-color: rgba(40, 167, 69, 0.25);
         }
 
-        .drop-zone.head { top: 4%; left: 32%; width: 36%; height: 11%; z-index: 10; }
-        .drop-zone.eyes { top: 15%; left: 36%; width: 28%; height: 6%; z-index: 30; }
-        .drop-zone.ears { top: 15%; left: 22%; width: 56%; height: 7%; z-index: 20; }
-        .drop-zone.trunk { top: 26%; left: 24%; width: 52%; height: 32%; z-index: 5; }
-        .drop-zone.hands { top: 47%; left: 10%; width: 80%; height: 12%; z-index: 15; }
-        .drop-zone.anchorage { top: 58%; left: 30%; width: 40%; height: 18%; z-index: 12; }
-        .drop-zone.feet { top: 88%; left: 26%; width: 48%; height: 10%; z-index: 10; }
+        .drop-zone.head { top: 2%; left: 30%; width: 40%; height: 12%; }
+        .drop-zone.face { top: 15%; left: 30%; width: 40%; height: 10%; }
+        .drop-zone.ears { top: 15%; left: 15%; width: 70%; height: 10%; }
+        .drop-zone.trunk { top: 27%; left: 22%; width: 56%; height: 32%; }
+        .drop-zone.hands { top: 48%; left: 5%; width: 90%; height: 14%; }
+        .drop-zone.legs { top: 62%; left: 22%; width: 56%; height: 20%; }
+        .drop-zone.feet { top: 83%; left: 20%; width: 60%; height: 15%; }
 
-        .epis-available {
-            display: flex;
-            flex-direction: column;
+        .epis-container {
+            flex: 1.2;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 15px;
         }
 
-        .epi-list {
+        .epi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
             gap: 10px;
             max-height: 380px;
             overflow-y: auto;
-            padding: 8px 5px;
-            box-sizing: border-box;
-            -webkit-overflow-scrolling: touch;
+            padding-right: 5px;
         }
 
-        .epi-list::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .epi-list::-webkit-scrollbar-thumb {
-            background: var(--accent-color);
-            border-radius: 4px;
-        }
-
-        .epi-item {
-            background-color: var(--accent-color);
+        .epi-card {
+            background-color: #1e2429;
             border: 2px solid transparent;
             border-radius: 8px;
-            padding: 8px 4px;
+            padding: 8px;
             text-align: center;
             cursor: pointer;
             font-size: 0.8em;
@@ -208,495 +136,258 @@
             align-items: center;
             justify-content: center;
             height: 90px;
-            box-sizing: border-box;
-            touch-action: none;
         }
 
-        .epi-item.selected {
-            border-color: var(--warning-color);
-            background-color: #1e4976;
-            transform: scale(1.03);
+        .epi-card.selected {
+            border-color: var(--warning);
+            background-color: #323940;
         }
 
-        .epi-item svg {
-            width: 38px;
-            height: 38px;
-            margin-bottom: 4px;
-            pointer-events: none;
+        .epi-card.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            filter: grayscale(1);
         }
 
-        .epi-item span {
-            pointer-events: none;
-            line-height: 1.1;
-        }
-
-        .drag-clone {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.85;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            background-color: var(--accent-color);
-            border: 2px solid var(--warning-color);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .drag-clone svg {
-            width: 40px;
-            height: 40px;
-        }
-
-        .drag-clone span {
-            font-size: 0.7em;
-            color: #fff;
-            text-align: center;
-        }
+        .epi-card svg { width: 32px; height: 32px; margin-bottom: 5px; }
 
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 100;
             justify-content: center;
             align-items: center;
         }
 
-        .modal-content {
-            background-color: var(--card-background);
+        .modal-box {
+            background: var(--bg-secondary);
             padding: 25px;
             border-radius: 10px;
-            max-width: 450px;
+            max-width: 400px;
             width: 90%;
             text-align: center;
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--accent);
         }
 
-        .modal-buttons button {
-            padding: 10px 20px;
+        .modal-box button {
+            background: var(--accent);
+            color: white;
             border: none;
+            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            background-color: var(--success-color);
-            color: white;
             margin-top: 15px;
         }
 
-        #certificate {
-            display: none;
-            margin-top: 15px;
-            background-color: #1a252f;
-            padding: 15px;
-            border: 2px dashed var(--warning-color);
-            border-radius: 8px;
-        }
-
-        @media (max-width: 800px) {
+        @media (max-width: 700px) {
             main { flex-direction: column; }
-            .avatar-wrapper { width: 200px; height: 360px; }
-            .epi-list { max-height: 250px; }
+            .avatar-wrapper { width: 180px; height: 320px; }
         }
     </style>
 </head>
 <body>
+
     <div class="container">
         <header>
-            <div class="logo">Segurança Profissional</div>
-            <div class="game-info">
-                <div id="timer" class="info-item">Tempo: <span class="value">60</span>s</div>
-                <div id="score" class="info-item">Pontos: <span class="value">0</span></div>
-                <div id="lives" class="info-item">Vidas: <span class="value">3</span></div>
-            </div>
+            <h1>Cenário: Soldador em Espaço Confinado</h1>
+            <p class="subtitle">Selecione o EPI e clique na região do corpo correspondente.</p>
         </header>
 
+        <div class="hud">
+            <div>Vidas: <span id="lives-val" style="color:var(--danger)">3</span></div>
+            <div>EPIs Equipados: <span id="progress-val">0/7</span></div>
+        </div>
+
         <main>
-            <div class="left-panel">
-                <div class="scenarios">
-                    <h3>1. Selecione o Cenário</h3>
-                    <div class="scenario-buttons">
-                        <button data-scenario="eletricista" class="active">Eletricista em Altura</button>
-                        <button data-scenario="soldador">Soldador em Espaço Confinado</button>
-                        <button data-scenario="maquinas">Operador de Máquinas Pesadas</button>
-                    </div>
-                </div>
+            <div class="avatar-container">
+                <div class="avatar-wrapper">
+                    <svg id="worker-avatar" viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="100" cy="370" rx="55" ry="8" fill="rgba(0,0,0,0.3)"/>
+                        <path d="M72 220 L68 345 L88 345 L97 230 L103 230 L112 345 L132 345 L128 220 Z" fill="#2d3748"/>
+                        <rect x="91" y="88" width="18" height="25" fill="#fbd38d"/>
+                        <path d="M58 110 Q100 100 142 110 L146 220 L54 220 Z" fill="#4a5568"/>
+                        <path d="M58 110 L38 190 L50 195 L68 125 Z" fill="#2d3748"/>
+                        <circle cx="43" cy="200" r="9" fill="#fbd38d"/>
+                        <path d="M142 110 L162 190 L150 195 L132 125 Z" fill="#2d3748"/>
+                        <circle cx="157" cy="200" r="9" fill="#fbd38d"/>
+                        <ellipse cx="100" cy="68" rx="22" ry="26" fill="#fbd38d"/>
+                        <circle cx="90" cy="66" r="2.5" fill="#2d3748"/>
+                        <circle cx="110" cy="66" r="2.5" fill="#2d3748"/>
 
-                <div class="character-display">
-                    <h3>2. Clique no EPI e depois na Zona do Boneco (ou Arraste)</h3>
-                    
-                    <div class="avatar-wrapper">
-                        <svg id="worker-avatar" viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg">
-                            <ellipse cx="100" cy="370" rx="55" ry="8" fill="rgba(0,0,0,0.3)"/>
-                            <path d="M72 220 L68 345 L88 345 L97 230 L103 230 L112 345 L132 345 L128 220 Z" fill="#2d3748"/>
-                            <g id="base-feet">
-                                <path d="M63 345 L88 345 L88 360 C88 365 63 365 63 360 Z" fill="#1a202c"/>
-                                <path d="M112 345 L137 345 L137 360 C137 365 112 365 112 360 Z" fill="#1a202c"/>
-                            </g>
-                            <g id="base-trunk">
-                                <path d="M58 110 Q100 100 142 110 L146 220 L54 220 Z" fill="#3182ce"/>
-                            </g>
-                            <rect x="91" y="88" width="18" height="25" fill="#fbd38d"/>
-                            <g id="base-arms">
-                                <path d="M58 110 L38 190 L50 195 L68 125 Z" fill="#2b6cb0"/>
-                                <circle cx="43" cy="200" r="9" fill="#fbd38d"/>
-                                <path d="M142 110 L162 190 L150 195 L132 125 Z" fill="#2b6cb0"/>
-                                <circle cx="157" cy="200" r="9" fill="#fbd38d"/>
-                            </g>
-                            <g id="base-head">
-                                <ellipse cx="100" cy="68" rx="22" ry="26" fill="#fbd38d"/>
-                                <circle cx="90" cy="66" r="2.5" fill="#2d3748"/>
-                                <circle cx="110" cy="66" r="2.5" fill="#2d3748"/>
-                                <path d="M93 80 Q100 85 107 80" stroke="#e53e3e" stroke-width="2" fill="none"/>
-                            </g>
+                        <!-- Camadas dinâmicas dos EPIs -->
+                        <g id="layer-head"></g>
+                        <g id="layer-face"></g>
+                        <g id="layer-ears"></g>
+                        <g id="layer-trunk"></g>
+                        <g id="layer-hands"></g>
+                        <g id="layer-legs"></g>
+                        <g id="layer-feet"></g>
+                    </svg>
 
-                            <g id="layer-feet"></g>
-                            <g id="layer-trunk"></g>
-                            <g id="layer-anchorage"></g>
-                            <g id="layer-hands"></g>
-                            <g id="layer-ears"></g>
-                            <g id="layer-eyes"></g>
-                            <g id="layer-head"></g>
-                        </svg>
-
-                        <div class="drop-zone head" data-zone="head" title="Cabeça"></div>
-                        <div class="drop-zone eyes" data-zone="eyes" title="Olhos/Rosto"></div>
-                        <div class="drop-zone ears" data-zone="ears" title="Ouvidos"></div>
-                        <div class="drop-zone trunk" data-zone="trunk" title="Tronco"></div>
-                        <div class="drop-zone hands" data-zone="hands" title="Mãos"></div>
-                        <div class="drop-zone feet" data-zone="feet" title="Pés/Pernas"></div>
-                        <div class="drop-zone anchorage" data-zone="anchorage" title="Ancoragem"></div>
-                    </div>
+                    <div class="drop-zone head" data-zone="head" title="Cabeça"></div>
+                    <div class="drop-zone face" data-zone="face" title="Rosto e Respiratório"></div>
+                    <div class="drop-zone ears" data-zone="ears" title="Ouvidos"></div>
+                    <div class="drop-zone trunk" data-zone="trunk" title="Tronco"></div>
+                    <div class="drop-zone hands" data-zone="hands" title="Mãos"></div>
+                    <div class="drop-zone legs" data-zone="legs" title="Pernas"></div>
+                    <div class="drop-zone feet" data-zone="feet" title="Pés"></div>
                 </div>
             </div>
 
-            <div class="right-panel">
-                <div class="epis-available">
-                    <h3>3. EPIs Disponíveis</h3>
-                    <div class="epi-list" id="epi-list"></div>
-                </div>
+            <div class="epis-container">
+                <div class="epi-grid" id="epi-grid"></div>
             </div>
         </main>
     </div>
 
-    <div class="modal" id="game-modal">
-        <div class="modal-content">
-            <h2 id="modal-title">Resultado</h2>
-            <p id="modal-message"></p>
-            <div id="certificate">
-                <h3>Certificado de Conclusão</h3>
-                <p>Treinamento de Segurança (NRs)</p>
-                <p>Pontuação: <strong id="cert-score">0</strong></p>
-            </div>
-            <div class="modal-buttons">
-                <button onclick="restartGame()">Reiniciar Treinamento</button>
-            </div>
+    <div class="modal" id="modal">
+        <div class="modal-box">
+            <h2 id="modal-title">Aviso</h2>
+            <p id="modal-desc"></p>
+            <button onclick="closeModal()">Continuar</button>
         </div>
     </div>
 
     <script>
-        const svgCardIcons = {
-            cap_classe_b: `<svg viewBox="0 0 64 64"><path d="M12 40 C12 18, 52 18, 52 40 L58 44 L6 44 Z" fill="#ffc107"/><rect x="22" y="38" width="20" height="4" fill="#333"/></svg>`,
-            cap_comum: `<svg viewBox="0 0 64 64"><path d="M12 40 C12 20, 52 20, 52 40 L58 44 L6 44 Z" fill="#ffffff"/><rect x="20" y="38" width="24" height="4" fill="#007bff"/></svg>`,
-            mascara_solda: `<svg viewBox="0 0 64 64"><path d="M18 12 L46 12 L48 48 C48 56, 16 56, 16 48 Z" fill="#212529"/><rect x="24" y="24" width="16" height="10" fill="#28a745" stroke="#fff"/></svg>`,
-            oculos_protecao: `<svg viewBox="0 0 64 64"><path d="M8 26 C8 20, 28 20, 28 26 L28 36 C28 42, 8 42, 8 36 Z" fill="#17a2b8"/><path d="M36 26 C36 20, 56 20, 56 26 L56 36 C56 42, 36 42, 36 36 Z" fill="#17a2b8"/><rect x="26" y="28" width="12" height="4" fill="#333"/></svg>`,
-            respirador_pff2: `<svg viewBox="0 0 64 64"><path d="M16 28 Q32 18 48 28 L50 44 Q32 54 14 44 Z" fill="#ffffff" stroke="#ccc" stroke-width="2"/><circle cx="32" cy="38" r="5" fill="#333"/></svg>`,
-            protetor_plug: `<svg viewBox="0 0 64 64"><path d="M16 20 L24 20 L20 36 Z" fill="#ff5722"/><path d="M48 20 L40 20 L44 36 Z" fill="#ff5722"/><path d="M20 36 Q32 54 44 36" fill="none" stroke="#ffc107" stroke-width="3"/></svg>`,
-            abafador_concha: `<svg viewBox="0 0 64 64"><path d="M16 20 Q32 4 48 20" fill="none" stroke="#333" stroke-width="6"/><rect x="10" y="24" width="12" height="22" rx="5" fill="#dc3545"/><rect x="42" y="24" width="12" height="22" rx="5" fill="#dc3545"/></svg>`,
-            vestiment_nr10: `<svg viewBox="0 0 64 64"><path d="M16 12 L48 12 L56 56 L8 56 Z" fill="#fd7e14"/><rect x="12" y="32" width="40" height="6" fill="#e0e0e0"/></svg>`,
-            avental_raspa: `<svg viewBox="0 0 64 64"><path d="M20 12 L44 12 L48 58 L16 58 Z" fill="#8d6e63"/></svg>`,
-            colete_refletivo: `<svg viewBox="0 0 64 64"><path d="M16 12 L48 12 L54 54 L10 54 Z" fill="#ccff00"/><rect x="12" y="28" width="40" height="6" fill="#e0e0e0"/></svg>`,
-            luva_dieletrica: `<svg viewBox="0 0 64 64"><path d="M16 20 L24 10 L32 20 L32 50 L16 50 Z" fill="#212529"/><rect x="16" y="42" width="32" height="8" fill="#dc3545"/></svg>`,
-            luva_cobertura: `<svg viewBox="0 0 64 64"><path d="M18 16 L28 8 L38 16 L38 52 L18 52 Z" fill="#d7ccc8"/><rect x="18" y="40" width="20" height="6" fill="#8d6e63"/></svg>`,
-            luva_raspa: `<svg viewBox="0 0 64 64"><path d="M18 16 L28 8 L38 16 L38 52 L18 52 Z" fill="#d7ccc8"/></svg>`,
-            luva_vaqueta: `<svg viewBox="0 0 64 64"><path d="M18 16 L28 8 L38 16 L38 52 L18 52 Z" fill="#fff8e1"/></svg>`,
-            bota_dieletrica: `<svg viewBox="0 0 64 64"><path d="M16 12 L32 12 L32 40 L52 40 L52 52 L16 52 Z" fill="#212529"/><rect x="16" y="48" width="36" height="6" fill="#ffc107"/></svg>`,
-            botina_biqueira: `<svg viewBox="0 0 64 64"><path d="M16 16 L32 16 L32 40 L52 40 L52 52 L16 52 Z" fill="#5d4037"/></svg>`,
-            perneira_couro: `<svg viewBox="0 0 64 64"><rect x="16" y="14" width="14" height="38" fill="#8d6e63" rx="2"/><rect x="34" y="14" width="14" height="38" fill="#8d6e63" rx="2"/></svg>`,
-            cinto_paraquedista: `<svg viewBox="0 0 64 64"><path d="M20 10 L26 54 M44 10 L38 54 M16 28 L48 28" stroke="#ff5722" stroke-width="5" fill="none"/></svg>`,
-            linha_vida: `<svg viewBox="0 0 64 64"><rect x="20" y="12" width="24" height="28" rx="4" fill="#dc3545"/></svg>`
-        };
-
-        const fittedEpiGraphics = {
-            cap_classe_b: `<path d="M72 48 C72 24, 128 24, 128 48 L140 52 L60 52 Z" fill="#ffc107" stroke="#333" stroke-width="1.5"/><rect x="85" y="45" width="30" height="5" fill="#333"/>`,
-            cap_comum: `<path d="M72 48 C72 24, 128 24, 128 48 L140 52 L60 52 Z" fill="#ffffff" stroke="#ccc" stroke-width="1.5"/><rect x="85" y="45" width="30" height="5" fill="#007bff"/>`,
-            mascara_solda: `<path d="M72 38 L128 38 L130 88 C130 98, 70 98, 70 88 Z" fill="#212529"/><rect x="82" y="52" width="36" height="15" fill="#28a745" stroke="#fff"/>`,
-            oculos_protecao: `<path d="M82 60 C82 54, 96 54, 96 60 L96 72 C96 75, 82 75, 82 72 Z" fill="#17a2b8" opacity="0.9" stroke="#fff"/><path d="M104 60 C104 54, 118 54, 118 60 L118 72 C118 75, 104 75, 104 72 Z" fill="#17a2b8" opacity="0.9" stroke="#fff"/><rect x="94" y="63" width="12" height="3" fill="#333"/>`,
-            respirador_pff2: `<path d="M85 68 Q100 80 115 68 L117 80 Q100 92 83 80 Z" fill="#ffffff" stroke="#ccc" stroke-width="2"/><circle cx="100" cy="78" r="4" fill="#333"/>`,
-            protetor_plug: `<circle cx="75" cy="68" r="4" fill="#ff5722"/><circle cx="125" cy="68" r="4" fill="#ff5722"/>`,
-            abafador_concha: `<path d="M74 48 Q100 30 126 48" fill="none" stroke="#333" stroke-width="5"/><rect x="68" y="58" width="10" height="20" rx="4" fill="#dc3545"/><rect x="122" y="58" width="10" height="20" rx="4" fill="#dc3545"/>`,
-            vestiment_nr10: `<path d="M55 108 Q100 98 145 108 L148 222 L52 222 Z" fill="#fd7e14"/><rect x="60" y="170" width="80" height="12" fill="#e0e0e0"/>`,
-            avental_raspa: `<path d="M75 110 L125 110 L135 225 L65 225 Z" fill="#8d6e63"/>`,
-            colete_refletivo: `<path d="M56 108 Q100 98 144 108 L147 220 L53 220 Z" fill="#ccff00" opacity="0.9"/><rect x="60" y="140" width="80" height="10" fill="#e0e0e0"/>`,
-            luva_dieletrica: `<path d="M32 188 L48 193 L52 212 L34 212 Z" fill="#212529"/><path d="M168 188 L152 193 L148 212 L166 212 Z" fill="#212529"/>`,
-            luva_cobertura: `<path d="M30 185 L50 190 L54 214 L32 214 Z" fill="#d7ccc8"/><path d="M170 185 L150 190 L146 214 L168 214 Z" fill="#d7ccc8"/>`,
-            luva_raspa: `<path d="M32 188 L48 193 L52 212 L34 212 Z" fill="#d7ccc8"/><path d="M168 188 L152 193 L148 212 L166 212 Z" fill="#d7ccc8"/>`,
-            luva_vaqueta: `<path d="M32 188 L48 193 L52 212 L34 212 Z" fill="#fff8e1"/><path d="M168 188 L152 193 L148 212 L166 212 Z" fill="#fff8e1"/>`,
-            bota_dieletrica: `<path d="M60 340 L90 340 L90 365 C90 370 60 370 60 365 Z" fill="#212529"/><path d="M110 340 L140 340 L140 365 C140 370 110 370 110 365 Z" fill="#212529"/>`,
-            botina_biqueira: `<path d="M60 340 L90 340 L90 365 C90 370 60 370 60 365 Z" fill="#5d4037"/><path d="M110 340 L140 340 L140 365 C140 370 110 370 110 365 Z" fill="#5d4037"/>`,
-            perneira_couro: `<path d="M68 280 L88 280 L86 345 L66 345 Z" fill="#8d6e63"/><path d="M112 280 L132 280 L134 345 L114 345 Z" fill="#8d6e63"/>`,
-            cinto_paraquedista: `<path d="M72 110 L82 220 M128 110 L118 220 M60 145 L140 145" stroke="#ff5722" stroke-width="4" fill="none"/>`,
-            linha_vida: `<path d="M100 185 L100 270 L140 290" stroke="#dc3545" stroke-width="4" fill="none"/>`
-        };
-
         const episDatabase = [
-            { id: 'cap_classe_b', name: 'Capacete Classe B (Jugular)', zone: 'head', validFor: ['eletricista'] },
-            { id: 'cap_comum', name: 'Capacete Obra', zone: 'head', validFor: ['maquinas'] },
-            { id: 'mascara_solda', name: 'Máscara de Solda c/ Filtro', zone: 'head', validFor: ['soldador'] },
-            { id: 'oculos_protecao', name: 'Óculos de Proteção', zone: 'eyes', validFor: ['eletricista', 'maquinas', 'soldador'] },
-            { id: 'respirador_pff2', name: 'Respirador PFF2 (Fumos)', zone: 'eyes', validFor: ['soldador'] },
-            { id: 'protetor_plug', name: 'Protetor Plug', zone: 'ears', validFor: ['soldador', 'eletricista', 'maquinas'] },
-            { id: 'abafador_concha', name: 'Protetor Concha', zone: 'ears', validFor: ['maquinas', 'soldador', 'eletricista'] },
-            { id: 'vestiment_nr10', name: 'Traje Retardante (FR)', zone: 'trunk', validFor: ['eletricista'] },
-            { id: 'avental_raspa', name: 'Avental de Raspa', zone: 'trunk', validFor: ['soldador'] },
-            { id: 'colete_refletivo', name: 'Colete Refletivo', zone: 'trunk', validFor: ['maquinas'] },
-            { id: 'luva_dieletrica', name: 'Luva Isolante de Borracha', zone: 'hands', validFor: ['eletricista'] },
-            { id: 'luva_cobertura', name: 'Luva Cobertura (Couro)', zone: 'hands', validFor: ['eletricista'] },
-            { id: 'luva_raspa', name: 'Luva Raspa Cano Longo', zone: 'hands', validFor: ['soldador', 'maquinas'] },
-            { id: 'luva_vaqueta', name: 'Luva Vaqueta', zone: 'hands', validFor: ['maquinas'] },
-            { id: 'bota_dieletrica', name: 'Bota Isolante Elétrica', zone: 'feet', validFor: ['eletricista'] },
-            { id: 'botina_biqueira', name: 'Botina c/ Biqueira', zone: 'feet', validFor: ['soldador', 'maquinas'] },
-            { id: 'perneira_couro', name: 'Perneiras de Couro', zone: 'feet', validFor: ['soldador'] },
-            { id: 'cinto_paraquedista', name: 'Cinto Tipo Paraquedista', zone: 'anchorage', validFor: ['eletricista'] },
-            { id: 'linha_vida', name: 'Talabarte / Trava-Quedas', zone: 'anchorage', validFor: ['eletricista'] }
+            { id: 'touca_arabe', name: 'Touca Árabe de Soldador', zone: 'head', isCorrect: true, svg: `<svg viewBox="0 0 64 64"><path d="M16 20 Q32 8 48 20 L52 56 L12 56 Z" fill="#d7ccc8"/><circle cx="32" cy="24" r="14" fill="#fbd38d"/></svg>`, draw: `<path d="M68 42 C68 20, 132 20, 132 42 L145 105 L55 105 Z" fill="#d7ccc8"/>` },
+            { id: 'mascara_solda', name: 'Máscara de Solda c/ Filtro', zone: 'face', isCorrect: true, svg: `<svg viewBox="0 0 64 64"><path d="M18 12 L46 12 L48 48 C48 56, 16 56, 16 48 Z" fill="#212529"/><rect x="24" y="24" width="16" height="10" fill="#28a745" stroke="#fff"/></svg>`, draw: `<path d="M72 38 L128 38 L130 88 C130 98, 70 98, 70 88 Z" fill="#212529"/><rect x="82" y="52" width="36" height="15" fill="#28a745" stroke="#fff"/>` },
+            { id: 'respirador_pff2', name: 'Respirador PFF2 (Fumos)', zone: 'face', isCorrect: true, svg: `<svg viewBox="0 0 64 64"><path d="M16 28 Q32 18 48 28 L50 44 Q32 54 14 44 Z" fill="#fff" stroke="#ccc"/><circle cx="32" cy="38" r="5" fill="#333"/></svg>`, draw: `<path d="M83 68 Q100 82 117 68 L119 82 Q100 96 81 82 Z" fill="#ffffff" stroke="#ccc"/><circle cx="100" cy="78" r="4" fill="#333"/>` },
+            { id: 'protetor_plug', name: 'Protetor Auricular Plug', zone: 'ears', isCorrect: true, svg: `<svg viewBox="0 0 64 64"><path d="M16 20 L24 20 L20 36 Z" fill="#ff5722"/><path d="M48 20 L40 20 L44 36 Z" fill="#ff5722"/></svg>`, draw: `<circle cx="75" cy="68" r="5" fill="#ff5722"/><circle cx="125" cy="68" r="5" fill="#ff5722"/>` },
+            { id: 'avental_raspa', name: 'Avental/Macacão de Raspa', zone: 'trunk', isCorrect: true, svg: `<svg viewBox="0 0 64 64"><path d="M16 12 L48 12 L52 58 L12 58 Z" fill="#8d6e63"/></svg>`, draw: `<path d="M54 108 Q100 98 146 108 L148 222 L52 222 Z" fill="#8d6e63"/>` },
+            { id: 'luva_raspa', name: 'Luva de Raspa Cano Longo', zone: 'hands', isCorrect: true, svg: `<svg viewBox="0 0 64 64"><path d="M18 16 L28 8 L38 16 L38 52 L18 52 Z" fill="#8d6e63"/></svg>`, draw: `<path d="M30 185 L50 190 L54 214 L32 214 Z" fill="#8d6e63"/><path d="M170 185 L150 190 L146 214 L168 214 Z" fill="#8d6e63"/>` },
+            { id: 'perneira_couro', name: 'Perneiras de Couro', zone: 'legs', isCorrect: true, svg: `<svg viewBox="0 0 64 64"><rect x="16" y="14" width="14" height="38" fill="#8d6e63"/><rect x="34" y="14" width="14" height="38" fill="#8d6e63"/></svg>`, draw: `<path d="M66 250 L88 250 L86 330 L64 330 Z" fill="#6d4c41"/><path d="M112 250 L134 250 L136 330 L114 330 Z" fill="#6d4c41"/>` },
+            { id: 'botina_biqueira', name: 'Botina c/ Biqueira de Aço', zone: 'feet', isCorrect: true, svg: `<svg viewBox="0 0 64 64"><path d="M16 16 L32 16 L32 40 L52 40 L52 52 L16 52 Z" fill="#5d4037"/></svg>`, draw: `<path d="M60 340 L90 340 L90 365 C90 370 60 370 60 365 Z" fill="#5d4037"/><path d="M110 340 L140 340 L140 365 C140 370 110 370 110 365 Z" fill="#5d4037"/>` },
+
+            // EPIs INCORRETOS
+            { 
+                id: 'luva_borracha', 
+                name: 'Luva Isolante de Borracha', 
+                zone: 'hands', 
+                isCorrect: false, 
+                svg: `<svg viewBox="0 0 64 64"><path d="M16 20 L32 20 L32 50 L16 50 Z" fill="#212529"/></svg>`,
+                belongsTo: 'Eletricista (NR-10)',
+                reason: 'Protege contra choques elétricos de alta tensão. Não resiste ao calor nem aos respingos de solda.'
+            },
+            { 
+                id: 'cinto_paraquedista', 
+                name: 'Cinto Paraquedista', 
+                zone: 'trunk', 
+                isCorrect: false, 
+                svg: `<svg viewBox="0 0 64 64"><path d="M20 10 L26 54 M44 10 L38 54 M16 28 L48 28" stroke="#ff5722" stroke-width="5" fill="none"/></svg>`,
+                belongsTo: 'Trabalho em Altura (NR-35)',
+                reason: 'Utilizado para retenção de quedas em altura. Não é o equipamento adequado para solda em nível plano.'
+            },
+            { 
+                id: 'colete_refletivo', 
+                name: 'Colete Refletivo', 
+                zone: 'trunk', 
+                isCorrect: false, 
+                svg: `<svg viewBox="0 0 64 64"><path d="M16 12 L48 12 L54 54 L10 54 Z" fill="#ccff00"/></svg>`,
+                belongsTo: 'Operador de Máquinas / Tráfego (NR-18/12)',
+                reason: 'Proporciona visibilidade, porém seu tecido sintético derrete facilmente com faíscas de solda.'
+            },
+            { 
+                id: 'capacete_classe_b', 
+                name: 'Capacete de Eletricista', 
+                zone: 'head', 
+                isCorrect: false, 
+                svg: `<svg viewBox="0 0 64 64"><path d="M12 40 C12 18, 52 18, 52 40 L58 44 L6 44 Z" fill="#ffc107"/></svg>`,
+                belongsTo: 'Eletricista / Altura (NR-10 / NR-35)',
+                reason: 'Para o soldador em espaço confinado, deve-se aplicar a Touca Árabe e a Máscara para vedação contra radiação.'
+            }
         ];
 
-        let currentScenario = 'eletricista';
-        let score = 0;
-        let lives = 3;
-        let timeLeft = 60;
-        let timerInterval = null;
-        let equippedZoneItems = {};
         let selectedEpi = null;
-        let dragCloneEl = null;
+        let lives = 3;
+        let equippedCount = 0;
+        const totalRequired = 7;
 
-        const scenarioRequirements = {
-            eletricista: ['head', 'eyes', 'ears', 'trunk', 'hands', 'feet', 'anchorage'],
-            soldador: ['head', 'eyes', 'ears', 'trunk', 'hands', 'feet'],
-            maquinas: ['head', 'eyes', 'ears', 'trunk', 'hands', 'feet']
-        };
+        const epiGrid = document.getElementById('epi-grid');
+        const modal = document.getElementById('modal');
 
-        const epiListEl = document.getElementById('epi-list');
-        const timerEl = document.querySelector('#timer .value');
-        const scoreEl = document.querySelector('#score .value');
-        const livesEl = document.querySelector('#lives .value');
-        const dropZones = document.querySelectorAll('.drop-zone');
-
-        function initGame() {
-            score = 0;
-            lives = 3;
-            timeLeft = 60;
-            equippedZoneItems = {};
-            selectedEpi = null;
-            updateHUD();
-            renderEPIs();
-            resetWorkerOutfit();
-            startTimer();
-        }
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                timerEl.textContent = timeLeft;
-                if (timeLeft <= 0) {
-                    endGame(false, "O tempo esgotou!");
-                }
-            }, 1000);
-        }
-
-        function updateHUD() {
-            scoreEl.textContent = score;
-            livesEl.textContent = lives;
-            timerEl.textContent = timeLeft;
-        }
-
-        function renderEPIs() {
-            epiListEl.innerHTML = '';
+        function init() {
+            epiGrid.innerHTML = '';
             episDatabase.forEach(epi => {
-                const item = document.createElement('div');
-                item.className = 'epi-item';
-                item.draggable = true;
-                item.dataset.id = epi.id;
-                item.innerHTML = `${svgCardIcons[epi.id]}<span>${epi.name}</span>`;
+                const card = document.createElement('div');
+                card.className = 'epi-card';
+                card.id = `card-${epi.id}`;
+                card.innerHTML = `${epi.svg}<span>${epi.name}</span>`;
+                card.onclick = () => selectEpi(epi, card);
+                epiGrid.appendChild(card);
+            });
 
-                item.addEventListener('click', () => {
-                    document.querySelectorAll('.epi-item').forEach(i => i.classList.remove('selected'));
-                    if (selectedEpi === epi) {
-                        selectedEpi = null;
-                    } else {
-                        selectedEpi = epi;
-                        item.classList.add('selected');
-                    }
-                });
-
-                item.addEventListener('dragstart', (e) => {
-                    selectedEpi = epi;
-                    e.dataTransfer.setData('text/plain', epi.id);
-                });
-
-                item.addEventListener('touchstart', (e) => {
-                    selectedEpi = epi;
-                    document.querySelectorAll('.epi-item').forEach(i => i.classList.remove('selected'));
-                    item.classList.add('selected');
-
-                    const touch = e.touches[0];
-                    createDragClone(epi, touch.clientX, touch.clientY);
-                }, { passive: true });
-
-                item.addEventListener('touchmove', (e) => {
-                    if (dragCloneEl) {
-                        const touch = e.touches[0];
-                        dragCloneEl.style.left = touch.clientX + 'px';
-                        dragCloneEl.style.top = touch.clientY + 'px';
-
-                        const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
-                        dropZones.forEach(z => z.classList.remove('drag-over'));
-                        if (elementUnderTouch && elementUnderTouch.classList.contains('drop-zone')) {
-                            elementUnderTouch.classList.add('drag-over');
-                        }
-                    }
-                }, { passive: true });
-
-                item.addEventListener('touchend', (e) => {
-                    if (dragCloneEl) {
-                        const touch = e.changedTouches[0];
-                        const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
-                        removeDragClone();
-                        dropZones.forEach(z => z.classList.remove('drag-over'));
-
-                        if (elementUnderTouch && elementUnderTouch.classList.contains('drop-zone')) {
-                            processDrop(elementUnderTouch, epi);
-                        }
-                    }
-                });
-
-                epiListEl.appendChild(item);
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.onclick = () => applyEpi(zone.dataset.zone);
             });
         }
 
-        function createDragClone(epi, x, y) {
-            removeDragClone();
-            dragCloneEl = document.createElement('div');
-            dragCloneEl.className = 'drag-clone';
-            dragCloneEl.innerHTML = `${svgCardIcons[epi.id]}<span>${epi.name}</span>`;
-            dragCloneEl.style.left = x + 'px';
-            dragCloneEl.style.top = y + 'px';
-            document.body.appendChild(dragCloneEl);
+        function selectEpi(epi, element) {
+            if (element.classList.contains('disabled')) return;
+            document.querySelectorAll('.epi-card').forEach(c => c.classList.remove('selected'));
+            selectedEpi = epi;
+            element.classList.add('selected');
         }
 
-        function removeDragClone() {
-            if (dragCloneEl) {
-                dragCloneEl.remove();
-                dragCloneEl = null;
-            }
-        }
-
-        function resetWorkerOutfit() {
-            ['head', 'eyes', 'ears', 'trunk', 'hands', 'feet', 'anchorage'].forEach(layer => {
-                const el = document.getElementById(`layer-${layer}`);
-                if (el) el.innerHTML = '';
-            });
-        }
-
-        dropZones.forEach(zone => {
-            zone.addEventListener('click', () => {
-                if (selectedEpi) {
-                    processDrop(zone, selectedEpi);
-                }
-            });
-
-            zone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                zone.classList.add('drag-over');
-            });
-
-            zone.addEventListener('dragleave', () => {
-                zone.classList.remove('drag-over');
-            });
-
-            zone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                zone.classList.remove('drag-over');
-                if (selectedEpi) {
-                    processDrop(zone, selectedEpi);
-                }
-            });
-        });
-
-        function processDrop(zone, epi) {
-            const targetZone = zone.dataset.zone;
-
-            if (epi.zone !== targetZone) {
-                registerError(`O item ${epi.name} não pertence a essa parte do corpo.`);
+        function applyEpi(zoneName) {
+            if (!selectedEpi) {
+                showModal("Selecione um EPI", "Clique primeiro em um EPI da lista à direita.");
                 return;
             }
 
-            if (epi.validFor.includes(currentScenario)) {
-                equippedZoneItems[targetZone] = epi.id;
-                document.getElementById(`layer-${targetZone}`).innerHTML = fittedEpiGraphics[epi.id];
+            if (!selectedEpi.isCorrect) {
+                lives--;
+                document.getElementById('lives-val').textContent = lives;
+                showModal(
+                    "❌ EPI Incorreto!", 
+                    `O item <strong>${selectedEpi.name}</strong> pertence ao <strong>${selectedEpi.belongsTo}</strong>.<br><br><em>Motivo:</em> ${selectedEpi.reason}`
+                );
                 
-                selectedEpi = null;
-                document.querySelectorAll('.epi-item').forEach(i => i.classList.remove('selected'));
+                if (lives <= 0) {
+                    showModal("Game Over", "Você cometeu muitos erros de segurança! Reiniciando...", () => location.reload());
+                }
+                return;
+            }
 
-                score += 15;
-                updateHUD();
-                checkWinCondition();
-            } else {
-                registerError(`${epi.name} não é adequado para este cenário!`);
+            if (selectedEpi.zone !== zoneName) {
+                showModal("Local Incorreto", `O item ${selectedEpi.name} não deve ser colocado nesta parte do corpo.`);
+                return;
+            }
+
+            document.getElementById(`layer-${zoneName}`).innerHTML += selectedEpi.draw;
+            const card = document.getElementById(`card-${selectedEpi.id}`);
+            card.classList.add('disabled');
+            card.classList.remove('selected');
+            
+            selectedEpi = null;
+            equippedCount++;
+            document.getElementById('progress-val').textContent = `${equippedCount}/${totalRequired}`;
+
+            if (equippedCount >= totalRequired) {
+                showModal("🎉 Parabéns!", "Você equipou o Soldador em Espaço Confinado perfeitamente seguindo as NRs 18 e 33!");
             }
         }
 
-        function registerError(reason) {
-            lives--;
-            score = Math.max(0, score - 5);
-            updateHUD();
-            if (lives <= 0) {
-                endGame(false, reason);
-            } else {
-                alert(reason);
-            }
-        }
-
-        function checkWinCondition() {
-            const required = scenarioRequirements[currentScenario];
-            const win = required.every(z => equippedZoneItems[z]);
-            if (win) {
-                score += timeLeft * 2;
-                endGame(true, "Parabéns! O trabalhador está totalmente protegido conforme as NRs!");
-            }
-        }
-
-        function endGame(isWin, message) {
-            clearInterval(timerInterval);
-            const modal = document.getElementById('game-modal');
-            document.getElementById('modal-title').textContent = isWin ? "Treinamento Concluído!" : "Aviso de Segurança!";
-            document.getElementById('modal-message').textContent = message;
-            document.getElementById('certificate').style.display = isWin ? 'block' : 'none';
-            if (isWin) document.getElementById('cert-score').textContent = score;
+        function showModal(title, desc, callback) {
+            document.getElementById('modal-title').innerHTML = title;
+            document.getElementById('modal-desc').innerHTML = desc;
             modal.style.display = 'flex';
+            window.modalCallback = callback;
         }
 
-        function restartGame() {
-            document.getElementById('game-modal').style.display = 'none';
-            initGame();
+        function closeModal() {
+            modal.style.display = 'none';
+            if (window.modalCallback) {
+                window.modalCallback();
+                window.modalCallback = null;
+            }
         }
 
-        document.querySelectorAll('.scenario-buttons button').forEach(btn => {
-            btn.onclick = (e) => {
-                document.querySelectorAll('.scenario-buttons button').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                currentScenario = e.target.dataset.scenario;
-                initGame();
-            };
-        });
-
-        window.onload = initGame;
+        window.onload = init;
     </script>
 </body>
-</html>
+    </html>
+                        
