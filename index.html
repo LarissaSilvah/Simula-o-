@@ -365,11 +365,11 @@
                         </svg>
 
                         <div class="drop-zone head" data-zone="head" title="Cabeça"></div>
-                        <div class="drop-zone eyes" data-zone="eyes" title="Olhos"></div>
+                        <div class="drop-zone eyes" data-zone="eyes" title="Olhos/Rosto"></div>
                         <div class="drop-zone ears" data-zone="ears" title="Ouvidos"></div>
                         <div class="drop-zone trunk" data-zone="trunk" title="Tronco"></div>
                         <div class="drop-zone hands" data-zone="hands" title="Mãos"></div>
-                        <div class="drop-zone feet" data-zone="feet" title="Pés"></div>
+                        <div class="drop-zone feet" data-zone="feet" title="Pés/Pernas"></div>
                         <div class="drop-zone anchorage" data-zone="anchorage" title="Ancoragem"></div>
                     </div>
                 </div>
@@ -405,16 +405,19 @@
             cap_comum: `<svg viewBox="0 0 64 64"><path d="M12 40 C12 20, 52 20, 52 40 L58 44 L6 44 Z" fill="#ffffff"/><rect x="20" y="38" width="24" height="4" fill="#007bff"/></svg>`,
             mascara_solda: `<svg viewBox="0 0 64 64"><path d="M18 12 L46 12 L48 48 C48 56, 16 56, 16 48 Z" fill="#212529"/><rect x="24" y="24" width="16" height="10" fill="#28a745" stroke="#fff"/></svg>`,
             oculos_protecao: `<svg viewBox="0 0 64 64"><path d="M8 26 C8 20, 28 20, 28 26 L28 36 C28 42, 8 42, 8 36 Z" fill="#17a2b8"/><path d="M36 26 C36 20, 56 20, 56 26 L56 36 C56 42, 36 42, 36 36 Z" fill="#17a2b8"/><rect x="26" y="28" width="12" height="4" fill="#333"/></svg>`,
+            respirador_pff2: `<svg viewBox="0 0 64 64"><path d="M16 28 Q32 18 48 28 L50 44 Q32 54 14 44 Z" fill="#ffffff" stroke="#ccc" stroke-width="2"/><circle cx="32" cy="38" r="5" fill="#333"/></svg>`,
             protetor_plug: `<svg viewBox="0 0 64 64"><path d="M16 20 L24 20 L20 36 Z" fill="#ff5722"/><path d="M48 20 L40 20 L44 36 Z" fill="#ff5722"/><path d="M20 36 Q32 54 44 36" fill="none" stroke="#ffc107" stroke-width="3"/></svg>`,
             abafador_concha: `<svg viewBox="0 0 64 64"><path d="M16 20 Q32 4 48 20" fill="none" stroke="#333" stroke-width="6"/><rect x="10" y="24" width="12" height="22" rx="5" fill="#dc3545"/><rect x="42" y="24" width="12" height="22" rx="5" fill="#dc3545"/></svg>`,
             vestiment_nr10: `<svg viewBox="0 0 64 64"><path d="M16 12 L48 12 L56 56 L8 56 Z" fill="#fd7e14"/><rect x="12" y="32" width="40" height="6" fill="#e0e0e0"/></svg>`,
             avental_raspa: `<svg viewBox="0 0 64 64"><path d="M20 12 L44 12 L48 58 L16 58 Z" fill="#8d6e63"/></svg>`,
             colete_refletivo: `<svg viewBox="0 0 64 64"><path d="M16 12 L48 12 L54 54 L10 54 Z" fill="#ccff00"/><rect x="12" y="28" width="40" height="6" fill="#e0e0e0"/></svg>`,
             luva_dieletrica: `<svg viewBox="0 0 64 64"><path d="M16 20 L24 10 L32 20 L32 50 L16 50 Z" fill="#212529"/><rect x="16" y="42" width="32" height="8" fill="#dc3545"/></svg>`,
+            luva_cobertura: `<svg viewBox="0 0 64 64"><path d="M18 16 L28 8 L38 16 L38 52 L18 52 Z" fill="#d7ccc8"/><rect x="18" y="40" width="20" height="6" fill="#8d6e63"/></svg>`,
             luva_raspa: `<svg viewBox="0 0 64 64"><path d="M18 16 L28 8 L38 16 L38 52 L18 52 Z" fill="#d7ccc8"/></svg>`,
             luva_vaqueta: `<svg viewBox="0 0 64 64"><path d="M18 16 L28 8 L38 16 L38 52 L18 52 Z" fill="#fff8e1"/></svg>`,
             bota_dieletrica: `<svg viewBox="0 0 64 64"><path d="M16 12 L32 12 L32 40 L52 40 L52 52 L16 52 Z" fill="#212529"/><rect x="16" y="48" width="36" height="6" fill="#ffc107"/></svg>`,
             botina_biqueira: `<svg viewBox="0 0 64 64"><path d="M16 16 L32 16 L32 40 L52 40 L52 52 L16 52 Z" fill="#5d4037"/></svg>`,
+            perneira_couro: `<svg viewBox="0 0 64 64"><rect x="16" y="14" width="14" height="38" fill="#8d6e63" rx="2"/><rect x="34" y="14" width="14" height="38" fill="#8d6e63" rx="2"/></svg>`,
             cinto_paraquedista: `<svg viewBox="0 0 64 64"><path d="M20 10 L26 54 M44 10 L38 54 M16 28 L48 28" stroke="#ff5722" stroke-width="5" fill="none"/></svg>`,
             linha_vida: `<svg viewBox="0 0 64 64"><rect x="20" y="12" width="24" height="28" rx="4" fill="#dc3545"/></svg>`
         };
@@ -424,37 +427,43 @@
             cap_comum: `<path d="M72 48 C72 24, 128 24, 128 48 L140 52 L60 52 Z" fill="#ffffff" stroke="#ccc" stroke-width="1.5"/><rect x="85" y="45" width="30" height="5" fill="#007bff"/>`,
             mascara_solda: `<path d="M72 38 L128 38 L130 88 C130 98, 70 98, 70 88 Z" fill="#212529"/><rect x="82" y="52" width="36" height="15" fill="#28a745" stroke="#fff"/>`,
             oculos_protecao: `<path d="M82 60 C82 54, 96 54, 96 60 L96 72 C96 75, 82 75, 82 72 Z" fill="#17a2b8" opacity="0.9" stroke="#fff"/><path d="M104 60 C104 54, 118 54, 118 60 L118 72 C118 75, 104 75, 104 72 Z" fill="#17a2b8" opacity="0.9" stroke="#fff"/><rect x="94" y="63" width="12" height="3" fill="#333"/>`,
+            respirador_pff2: `<path d="M85 68 Q100 80 115 68 L117 80 Q100 92 83 80 Z" fill="#ffffff" stroke="#ccc" stroke-width="2"/><circle cx="100" cy="78" r="4" fill="#333"/>`,
             protetor_plug: `<circle cx="75" cy="68" r="4" fill="#ff5722"/><circle cx="125" cy="68" r="4" fill="#ff5722"/>`,
             abafador_concha: `<path d="M74 48 Q100 30 126 48" fill="none" stroke="#333" stroke-width="5"/><rect x="68" y="58" width="10" height="20" rx="4" fill="#dc3545"/><rect x="122" y="58" width="10" height="20" rx="4" fill="#dc3545"/>`,
             vestiment_nr10: `<path d="M55 108 Q100 98 145 108 L148 222 L52 222 Z" fill="#fd7e14"/><rect x="60" y="170" width="80" height="12" fill="#e0e0e0"/>`,
             avental_raspa: `<path d="M75 110 L125 110 L135 225 L65 225 Z" fill="#8d6e63"/>`,
             colete_refletivo: `<path d="M56 108 Q100 98 144 108 L147 220 L53 220 Z" fill="#ccff00" opacity="0.9"/><rect x="60" y="140" width="80" height="10" fill="#e0e0e0"/>`,
             luva_dieletrica: `<path d="M32 188 L48 193 L52 212 L34 212 Z" fill="#212529"/><path d="M168 188 L152 193 L148 212 L166 212 Z" fill="#212529"/>`,
+            luva_cobertura: `<path d="M30 185 L50 190 L54 214 L32 214 Z" fill="#d7ccc8"/><path d="M170 185 L150 190 L146 214 L168 214 Z" fill="#d7ccc8"/>`,
             luva_raspa: `<path d="M32 188 L48 193 L52 212 L34 212 Z" fill="#d7ccc8"/><path d="M168 188 L152 193 L148 212 L166 212 Z" fill="#d7ccc8"/>`,
             luva_vaqueta: `<path d="M32 188 L48 193 L52 212 L34 212 Z" fill="#fff8e1"/><path d="M168 188 L152 193 L148 212 L166 212 Z" fill="#fff8e1"/>`,
             bota_dieletrica: `<path d="M60 340 L90 340 L90 365 C90 370 60 370 60 365 Z" fill="#212529"/><path d="M110 340 L140 340 L140 365 C140 370 110 370 110 365 Z" fill="#212529"/>`,
             botina_biqueira: `<path d="M60 340 L90 340 L90 365 C90 370 60 370 60 365 Z" fill="#5d4037"/><path d="M110 340 L140 340 L140 365 C140 370 110 370 110 365 Z" fill="#5d4037"/>`,
+            perneira_couro: `<path d="M68 280 L88 280 L86 345 L66 345 Z" fill="#8d6e63"/><path d="M112 280 L132 280 L134 345 L114 345 Z" fill="#8d6e63"/>`,
             cinto_paraquedista: `<path d="M72 110 L82 220 M128 110 L118 220 M60 145 L140 145" stroke="#ff5722" stroke-width="4" fill="none"/>`,
             linha_vida: `<path d="M100 185 L100 270 L140 290" stroke="#dc3545" stroke-width="4" fill="none"/>`
         };
 
         const episDatabase = [
-            { id: 'cap_classe_b', name: 'Capacete Classe B', zone: 'head', validFor: ['eletricista'] },
+            { id: 'cap_classe_b', name: 'Capacete Classe B (Jugular)', zone: 'head', validFor: ['eletricista'] },
             { id: 'cap_comum', name: 'Capacete Obra', zone: 'head', validFor: ['maquinas'] },
-            { id: 'mascara_solda', name: 'Máscara de Solda', zone: 'head', validFor: ['soldador'] },
-            { id: 'oculos_protecao', name: 'Óculos de Proteção', zone: 'eyes', validFor: ['eletricista', 'maquinas'] },
-            { id: 'protetor_plug', name: 'Protetor Plug', zone: 'ears', validFor: ['soldador', 'eletricista'] },
-            { id: 'abafador_concha', name: 'Protetor Concha', zone: 'ears', validFor: ['maquinas'] },
-            { id: 'vestiment_nr10', name: 'Traje NR10', zone: 'trunk', validFor: ['eletricista'] },
-            { id: 'avental_raspa', name: 'Avental Raspa', zone: 'trunk', validFor: ['soldador'] },
+            { id: 'mascara_solda', name: 'Máscara de Solda c/ Filtro', zone: 'head', validFor: ['soldador'] },
+            { id: 'oculos_protecao', name: 'Óculos de Proteção', zone: 'eyes', validFor: ['eletricista', 'maquinas', 'soldador'] },
+            { id: 'respirador_pff2', name: 'Respirador PFF2 (Fumos)', zone: 'eyes', validFor: ['soldador'] },
+            { id: 'protetor_plug', name: 'Protetor Plug', zone: 'ears', validFor: ['soldador', 'eletricista', 'maquinas'] },
+            { id: 'abafador_concha', name: 'Protetor Concha', zone: 'ears', validFor: ['maquinas', 'soldador', 'eletricista'] },
+            { id: 'vestiment_nr10', name: 'Traje Retardante (FR)', zone: 'trunk', validFor: ['eletricista'] },
+            { id: 'avental_raspa', name: 'Avental de Raspa', zone: 'trunk', validFor: ['soldador'] },
             { id: 'colete_refletivo', name: 'Colete Refletivo', zone: 'trunk', validFor: ['maquinas'] },
-            { id: 'luva_dieletrica', name: 'Luva Dielétrica', zone: 'hands', validFor: ['eletricista'] },
-            { id: 'luva_raspa', name: 'Luva de Raspa', zone: 'hands', validFor: ['soldador'] },
+            { id: 'luva_dieletrica', name: 'Luva Isolante de Borracha', zone: 'hands', validFor: ['eletricista'] },
+            { id: 'luva_cobertura', name: 'Luva Cobertura (Couro)', zone: 'hands', validFor: ['eletricista'] },
+            { id: 'luva_raspa', name: 'Luva Raspa Cano Longo', zone: 'hands', validFor: ['soldador', 'maquinas'] },
             { id: 'luva_vaqueta', name: 'Luva Vaqueta', zone: 'hands', validFor: ['maquinas'] },
-            { id: 'bota_dieletrica', name: 'Bota Isolante', zone: 'feet', validFor: ['eletricista'] },
-            { id: 'botina_biqueira', name: 'Botina Biqueira', zone: 'feet', validFor: ['soldador', 'maquinas'] },
-            { id: 'cinto_paraquedista', name: 'Cinto Paraquedista', zone: 'anchorage', validFor: ['eletricista'] },
-            { id: 'linha_vida', name: 'Trava-Quedas', zone: 'anchorage', validFor: [] }
+            { id: 'bota_dieletrica', name: 'Bota Isolante Elétrica', zone: 'feet', validFor: ['eletricista'] },
+            { id: 'botina_biqueira', name: 'Botina c/ Biqueira', zone: 'feet', validFor: ['soldador', 'maquinas'] },
+            { id: 'perneira_couro', name: 'Perneiras de Couro', zone: 'feet', validFor: ['soldador'] },
+            { id: 'cinto_paraquedista', name: 'Cinto Tipo Paraquedista', zone: 'anchorage', validFor: ['eletricista'] },
+            { id: 'linha_vida', name: 'Talabarte / Trava-Quedas', zone: 'anchorage', validFor: ['eletricista'] }
         ];
 
         let currentScenario = 'eletricista';
@@ -468,7 +477,7 @@
 
         const scenarioRequirements = {
             eletricista: ['head', 'eyes', 'ears', 'trunk', 'hands', 'feet', 'anchorage'],
-            soldador: ['head', 'ears', 'trunk', 'hands', 'feet'],
+            soldador: ['head', 'eyes', 'ears', 'trunk', 'hands', 'feet'],
             maquinas: ['head', 'eyes', 'ears', 'trunk', 'hands', 'feet']
         };
 
@@ -516,7 +525,6 @@
                 item.dataset.id = epi.id;
                 item.innerHTML = `${svgCardIcons[epi.id]}<span>${epi.name}</span>`;
 
-                // Método 1: Seleção por Clique/Toque Direto
                 item.addEventListener('click', () => {
                     document.querySelectorAll('.epi-item').forEach(i => i.classList.remove('selected'));
                     if (selectedEpi === epi) {
@@ -527,13 +535,11 @@
                     }
                 });
 
-                // Drag and Drop Nativo (Desktop Mouse)
                 item.addEventListener('dragstart', (e) => {
                     selectedEpi = epi;
                     e.dataTransfer.setData('text/plain', epi.id);
                 });
 
-                // Drag and Drop por Toque (Mobile Touch Event Engine)
                 item.addEventListener('touchstart', (e) => {
                     selectedEpi = epi;
                     document.querySelectorAll('.epi-item').forEach(i => i.classList.remove('selected'));
@@ -549,7 +555,6 @@
                         dragCloneEl.style.left = touch.clientX + 'px';
                         dragCloneEl.style.top = touch.clientY + 'px';
 
-                        // Highlight da zona sobrevoada no toque
                         const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
                         dropZones.forEach(z => z.classList.remove('drag-over'));
                         if (elementUnderTouch && elementUnderTouch.classList.contains('drop-zone')) {
@@ -599,7 +604,6 @@
             });
         }
 
-        // Configuração das Zonas de Soltura (Mouse)
         dropZones.forEach(zone => {
             zone.addEventListener('click', () => {
                 if (selectedEpi) {
