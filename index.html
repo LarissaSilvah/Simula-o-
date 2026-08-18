@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -146,7 +146,7 @@
             display: block;
         }
 
-        /* Areas de soltura totalmente invisiveis sem pontilhado */
+        /* Areas de clique e soltura sem bordas visíveis */
         .drop-zone {
             position: absolute;
             box-sizing: border-box;
@@ -157,13 +157,11 @@
             transition: background-color 0.2s;
         }
 
-        /* Destaque discreto apenas ao arrastar ou selecionar */
         .drop-zone.drag-over, .drop-zone.selected-target {
             background-color: rgba(40, 167, 69, 0.3) !important;
             border-radius: 6px;
         }
 
-        /* Posicionamento 1:1 no boneco */
         .drop-zone.head { top: 4%; left: 32%; width: 36%; height: 11%; z-index: 10; }
         .drop-zone.eyes { top: 15%; left: 36%; width: 28%; height: 6%; z-index: 30; }
         .drop-zone.ears { top: 15%; left: 22%; width: 56%; height: 7%; z-index: 20; }
@@ -172,14 +170,30 @@
         .drop-zone.anchorage { top: 58%; left: 30%; width: 40%; height: 18%; z-index: 12; }
         .drop-zone.feet { top: 88%; left: 26%; width: 48%; height: 10%; z-index: 10; }
 
-        /* Lista de EPIs */
+        /* Lista de EPIs com rolagem corrigida */
+        .epis-available {
+            display: flex;
+            flex-direction: column;
+        }
+
         .epi-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 10px;
-            max-height: 430px;
+            max-height: 380px;
             overflow-y: auto;
-            padding: 5px;
+            padding: 8px 5px;
+            box-sizing: border-box;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .epi-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .epi-list::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 4px;
         }
 
         .epi-item {
@@ -196,13 +210,13 @@
             justify-content: center;
             height: 90px;
             box-sizing: border-box;
-            touch-action: none;
+            touch-action: pan-y;
         }
 
         .epi-item.selected {
             border-color: var(--warning-color);
             background-color: #1e4976;
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         .epi-item svg {
@@ -261,6 +275,7 @@
         @media (max-width: 800px) {
             main { flex-direction: column; }
             .avatar-wrapper { width: 200px; height: 360px; }
+            .epi-list { max-height: 300px; }
         }
     </style>
 </head>
@@ -287,10 +302,9 @@
                 </div>
 
                 <div class="character-display">
-                    <h3>2. Clique no EPI e depois no Membro (ou Arraste)</h3>
+                    <h3>2. Clique no EPI e no Membro (ou Arraste)</h3>
                     
                     <div class="avatar-wrapper">
-                        <!-- Boneco Trabalhador -->
                         <svg id="worker-avatar" viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg">
                             <ellipse cx="100" cy="370" rx="55" ry="8" fill="rgba(0,0,0,0.3)"/>
                             
@@ -327,7 +341,7 @@
                                 <path d="M93 80 Q100 85 107 80" stroke="#e53e3e" stroke-width="2" fill="none"/>
                             </g>
 
-                            <!-- CAMADAS DE EPIs ENCAIXADOS -->
+                            <!-- Layer do vestuário do trabalhador -->
                             <g id="layer-feet"></g>
                             <g id="layer-trunk"></g>
                             <g id="layer-anchorage"></g>
@@ -337,7 +351,7 @@
                             <g id="layer-head"></g>
                         </svg>
 
-                        <!-- Zonas de Clique/Soltura (Totalmente Invisíveis) -->
+                        <!-- Zonas de Colisão/Clique -->
                         <div class="drop-zone head" data-zone="head" title="Cabeça"></div>
                         <div class="drop-zone eyes" data-zone="eyes" title="Olhos"></div>
                         <div class="drop-zone ears" data-zone="ears" title="Ouvidos"></div>
@@ -419,7 +433,7 @@
             { id: 'mascara_solda', name: 'Máscara de Solda', zone: 'head', validFor: ['soldador'] },
             { id: 'oculos_protecao', name: 'Óculos de Proteção', zone: 'eyes', validFor: ['eletricista', 'maquinas'] },
             { id: 'protetor_plug', name: 'Protetor Plug', zone: 'ears', validFor: ['soldador', 'eletricista'] },
-            { id: 'abafador_concha', name: 'Protetor Concha', zone: 'ears', validFor: ['maquinas'] },
+            { id: 'abafador_concha', name: 'Protetor Concha', zone: 'ear', validFor: ['maquinas'] },
             { id: 'vestiment_nr10', name: 'Traje NR10', zone: 'trunk', validFor: ['eletricista'] },
             { id: 'avental_raspa', name: 'Avental Raspa', zone: 'trunk', validFor: ['soldador'] },
             { id: 'colete_refletivo', name: 'Colete Refletivo', zone: 'trunk', validFor: ['maquinas'] },
@@ -490,6 +504,7 @@
                 item.dataset.id = epi.id;
                 item.innerHTML = `${svgCardIcons[epi.id]}<span>${epi.name}</span>`;
 
+                // Clique para Selecionar
                 item.onclick = () => {
                     document.querySelectorAll('.epi-item').forEach(i => i.classList.remove('selected'));
                     if (selectedEpi === epi) {
@@ -500,8 +515,17 @@
                     }
                 };
 
+                // Suporte a Arraste (Desktop)
                 item.ondragstart = (e) => {
                     selectedEpi = epi;
+                    e.dataTransfer.setData('text/plain', epi.id);
+                };
+
+                // Suporte a Toque Continuo (Mobile Touch Dragging)
+                item.ontouchstart = (e) => {
+                    selectedEpi = epi;
+                    document.querySelectorAll('.epi-item').forEach(i => i.classList.remove('selected'));
+                    item.classList.add('selected');
                 };
 
                 epiListEl.appendChild(item);
@@ -515,6 +539,7 @@
             });
         }
 
+        // Configuração de Drop Zones (Mouse + Touch)
         dropZones.forEach(zone => {
             zone.onclick = () => {
                 if (selectedEpi) {
@@ -525,6 +550,13 @@
             zone.ondragover = (e) => e.preventDefault();
             zone.ondrop = (e) => {
                 e.preventDefault();
+                if (selectedEpi) {
+                    processDrop(zone, selectedEpi);
+                }
+            };
+
+            // Suporte para Soltar com o Dedo (Mobile)
+            zone.ontouchend = (e) => {
                 if (selectedEpi) {
                     processDrop(zone, selectedEpi);
                 }
